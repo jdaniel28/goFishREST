@@ -111,7 +111,17 @@ public class GameService {
 				listAskedPlayerCards.remove(card);
 				listCurrentPlayerCards.add(card);
 			}
-			String logString = playerName + " took " + containingCards.toString() + " from " + askedPlayerName;
+			String logString = playerName + " took ";
+			for (int k = 0; k < containingCards.size(); k++) {
+				logString += CardActions.getCardName(containingCards.get(k));
+				if (k == containingCards.size() - 1) {
+					logString += " ";
+				} else {
+					logString += ", ";
+				}
+			}
+			logString += "from " + askedPlayerName;
+			// + containingCards.toString() + " from " + askedPlayerName;
 			game.setLog(logString);
 			currentPlayerCards = CardActions.listToString(listCurrentPlayerCards);
 			askedPlayerCards = CardActions.listToString(listAskedPlayerCards);
@@ -123,7 +133,8 @@ public class GameService {
 		} else {
 			List<String> listDeckCards = game.getDeckCards();
 			if (listDeckCards != null && listDeckCards.size() > 0) {
-				String logString = playerName + " went fishing for " + CardActions.getSetName(askedSet);
+				String logString = playerName + " asked " + askedPlayerName + " for " + CardActions.getSetName(askedSet)
+						+ " but went fishing instead 🐟";
 				game.setLog(logString);
 				String cardDrawn = listDeckCards.get(0);
 				listDeckCards.remove(0);
@@ -133,18 +144,10 @@ public class GameService {
 				currentPlayerCards = CardActions.listToString(listCurrentPlayerCards);
 				playerCards.set(game.getPlayerTurn() - 1, currentPlayerCards);
 				game.setPlayerCards(playerCards);
-				boolean emptyCards = true;
+
 				int nextPlayerNum = game.getPlayerTurn();
-				while (emptyCards) {
-					nextPlayerNum = CardActions.getNextTurn(game.getNumPlayers(), nextPlayerNum);
-					String nextPlayerCards = playerCards.get(nextPlayerNum - 1);
-					List<String> listNextPlayerCards = CardActions.stringToListDeck(nextPlayerCards);
-					if (listNextPlayerCards.size() == 1 && listNextPlayerCards.get(0).equals("WE")) {
-						continue;
-					} else {
-						emptyCards = false;
-					}
-				}
+				int askedPlayerNum = playerTurn.getPlayerAsked();
+				nextPlayerNum = askedPlayerNum;
 
 				game.setPlayerTurn(nextPlayerNum);
 				this.gameDao.updateGame(game);

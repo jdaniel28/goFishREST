@@ -32,12 +32,55 @@ public class CardActions {
 		return cardsList;
 	}
 
+	public static String getCardName(String card) {
+		String firstLetter = card.substring(0, 1);
+		String secondLetter = card.substring(1, 2);
+		String cardName = "";
+		if (firstLetter.equals("2")) {
+			cardName += "Two";
+		} else if (firstLetter.equals("3")) {
+			cardName += "Three";
+		} else if (firstLetter.equals("4")) {
+			cardName += "Four";
+		} else if (firstLetter.equals("5")) {
+			cardName += "Five";
+		} else if (firstLetter.equals("6")) {
+			cardName += "Six";
+		} else if (firstLetter.equals("7")) {
+			cardName += "Seven";
+		} else if (firstLetter.equals("8")) {
+			cardName += "Eight";
+		} else if (firstLetter.equals("9")) {
+			cardName += "Nine";
+		} else if (firstLetter.equals("T")) {
+			cardName += "Ten";
+		} else if (firstLetter.equals("K")) {
+			cardName += "King";
+		} else if (firstLetter.equals("Q")) {
+			cardName += "Queen";
+		} else if (firstLetter.equals("A")) {
+			cardName += "Ace";
+		} else if (firstLetter.equals("J")) {
+			cardName += "Jack";
+		}
+		cardName += " of ";
+		if (secondLetter.equals("H")) {
+			cardName += "Hearts";
+		} else if (secondLetter.equals("D")) {
+			cardName += "Diamonds";
+		} else if (secondLetter.equals("S")) {
+			cardName += "Spades";
+		} else if (secondLetter.equals("C")) {
+			cardName += "Clubs";
+		}
+		return cardName;
+	}
+
 	public static String createSetsString(int n) {
 		String str = "";
 		for (int i = 0; i < n; i++) {
 			str += ';';
 		}
-		System.out.println(str);
 		return str;
 	}
 
@@ -75,7 +118,6 @@ public class CardActions {
 				start = i + 1;
 			}
 		}
-		System.out.println(stringList);
 		return stringList;
 	}
 
@@ -176,7 +218,6 @@ public class CardActions {
 
 	public static Map<Integer, String[]> getSetsMap(int currentPlayers, String setsDeclared) {
 		Map<Integer, String[]> setsMap = new HashMap<Integer, String[]>();
-		System.out.println(setsDeclared);
 		if (setsDeclared != null && setsDeclared.length() != 0) {
 			for (int i = 0; i < currentPlayers; i++) {
 				int start = 0;
