@@ -20,7 +20,7 @@ import com.danny.fish.model.PlayerTurn;
 import com.danny.fish.service.GameService;
 
 @RestController
-@CrossOrigin(origins = { "http://localhost:4200", "http://nggofish.s3-website.ap-south-1.amazonaws.com" })
+@CrossOrigin(origins = { "http://localhost:4200"})
 public class GameController {
 
 	@Autowired

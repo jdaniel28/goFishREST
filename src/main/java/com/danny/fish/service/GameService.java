@@ -66,7 +66,14 @@ public class GameService {
 							emptyCards = false;
 						}
 					}
+					String playerNames = game.getPlayerNames();
+					List<String> listPlayerNames = CardActions.stringToList(playerNames);
+
+					String playerName = listPlayerNames.get(game.getPlayerTurn() - 1);
 					game.setPlayerTurn(nextPlayerNum);
+					String logString = "";
+					logString += playerName + " has declared the Set of " + CardActions.getSetName(playerTurn.getSet());
+					game.setLog(logString);
 				}
 
 				this.gameDao.updateGame(game);
