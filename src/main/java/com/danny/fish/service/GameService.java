@@ -53,6 +53,15 @@ public class GameService {
 				setsList.set(game.getPlayerTurn() - 1, playerSetsString);
 				game.setSetsDeclared(setsList);
 				game.setPlayerCards(playerCards);
+
+				String playerNames = game.getPlayerNames();
+				List<String> listPlayerNames = CardActions.stringToList(playerNames);
+
+				String playerName = listPlayerNames.get(game.getPlayerTurn() - 1);
+
+				String logString = "";
+				logString += playerName + " has declared the Set of " + CardActions.getSetName(playerTurn.getSet());
+				game.setLog(logString);
 				if (listCurrentPlayerCards.size() == 0 || listCurrentPlayerCards == null) {
 					boolean emptyCards = true;
 					int nextPlayerNum = game.getPlayerTurn();
@@ -66,14 +75,9 @@ public class GameService {
 							emptyCards = false;
 						}
 					}
-					String playerNames = game.getPlayerNames();
-					List<String> listPlayerNames = CardActions.stringToList(playerNames);
 
-					String playerName = listPlayerNames.get(game.getPlayerTurn() - 1);
 					game.setPlayerTurn(nextPlayerNum);
-					String logString = "";
-					logString += playerName + " has declared the Set of " + CardActions.getSetName(playerTurn.getSet());
-					game.setLog(logString);
+
 				}
 
 				this.gameDao.updateGame(game);
@@ -152,13 +156,17 @@ public class GameService {
 				playerCards.set(game.getPlayerTurn() - 1, currentPlayerCards);
 				game.setPlayerCards(playerCards);
 
-				int nextPlayerNum = game.getPlayerTurn();
-				int askedPlayerNum = playerTurn.getPlayerAsked();
-				nextPlayerNum = askedPlayerNum;
-
-				game.setPlayerTurn(nextPlayerNum);
-				this.gameDao.updateGame(game);
+			} else {
+				String logString = playerName + " asked " + askedPlayerName + " for "
+						+ CardActions.getSetName(askedSet);
+				game.setLog(logString);
 			}
+			int nextPlayerNum = game.getPlayerTurn();
+			int askedPlayerNum = playerTurn.getPlayerAsked();
+			nextPlayerNum = askedPlayerNum;
+
+			game.setPlayerTurn(nextPlayerNum);
+			this.gameDao.updateGame(game);
 		}
 
 		return game;
